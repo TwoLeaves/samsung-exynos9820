@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        model: [ "G973F" ]
+        model: [ "G970F" ]
 
     steps:
     - uses: actions/checkout@v1
@@ -28,16 +28,20 @@ jobs:
       run: |
         ./build config                   \
                 model=${{ matrix.model}} \
-                name="CRUEL-V3.4"        \
+                name="CRUEL-V3.4_dunstoncursed"   \
+                os_patch_level=2099-12   \
                 +magisk                  \
-                +nohardening             \
-                +ttl                     \
-                +wireguard               \
-                +cifs                    \
+                +noatime                 \                
+                +io_bfq                  \
                 +sdfat                   \
                 +ntfs                    \
-                +morosound               \
+                +cifs                    \
+                +ttl                     \
+                +wireguard               \
                 +boeffla_wl_blocker      \
+                +nohardening             \
+                +nodebug                 \
+                +morosound               \
         2>&1 | tee config.info
     - name: Kernel Build
       run: ./build :build
